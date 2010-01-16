@@ -1,0 +1,88 @@
+Physics and behaviour:
+	[ ] Not handling all collisions from GTA2 maps (FLAT faces)
+	[ ] Fix block geometry to be outputting actual array of polygons, not 5 faces as it is right now
+	[ ] Tracing a ray against map with start == end doesn't check if the point lies on some surface
+	[ ] TRACE ERROR: Fall through in edges like [419.00; 431.00] (when player is exactly there, minus the distance keeping)
+	[ ] Bad behaviour at building edges
+	[ ] Improper collision with Z=0.0 blocks (which are not water)
+	[ ] Can sometimes go through buildings and floor when moving at high velocity
+
+	[X] Going down the slopes makes you fall down, instead of smoothly moving down
+	[X] You can get stuck in point where two building edges match (4 walls go into same spot)
+	[X] Player ped must be kept at least X units away from nearest wall
+	[X] Going higher than Z=10.0 and moving on X axis causes tracing to check infinite amount of blocks (in release mode only)
+	[X] Fall through level when going against a solid walls in some places
+
+
+Crashes and freezes:
+	[ ] Running two copies of the game freezes newest one
+	[ ] Crash in block tracing (when map was removed before trace was complete/in middle of trace)
+	[ ] Crash when attempting to write to server listen connection (after closing it causes heap overflow)
+	[ ] Crash when network connection is shut down while message buffer is still used (recv buffer, but also send buffer possible)
+
+	[X] Crash/memory error if connecting to some host, and connection could not be made
+	[X] Crash under restricted user in Windows
+	[X] Crash when adding new console line (console.cpp:121) consoleLines[0]->Size is invalid
+	[X] Crash on exit freeing up some console-related resources
+	[X] Spontaneous crash with "out of memory" after walking a lot around the map; (was related to console bug)
+
+
+Graphics and geometry:
+	[ ] Tile conversion tool adds unneccessary alpha to building tiles/building tiles must be rendered without alpha unless FLAT
+	[ ] Improper normals for FLAT surfaces. Might want to change FLAT surfaces behaviour for OpenGTA2 map format at all
+	[ ] 0.25x0.25x1.0 blocks sometimes don't have lid surface
+	[ ] Obvious shaking of player ped at low FPS (player position exceeds camera position in update order...)
+	[ ] Map VBO cache is not updated when screen size is changed
+	[ ] -8.0f offset shouldn't be required in drawing console input cursor (wrong text dimensions, off by a char?)
+
+	[X] Missing special symbols in message font.
+	[X] In conversion tools effective size of atlas is incorrect (does not take sprite sizes in mind, only data). Remaining area must be black/zero alpha.
+
+
+Code-related:
+	[ ] Code must include all header files it requires, instead of single OpenGTA2.h (or not?)
+	[ ] All padding must be done using spaces, and not tabs
+	[ ] Remove any whitespaces in end of lines
+	[ ] Map.planeShouldExist checks every block, should check groups of 64x64 blocks (faster!)
+	[ ] Move actual collision checking to Map.traceList (and probably rename it to something else)
+	[ ] Check if all instances which use DataArray use ID instead of POINTER to data in case data is potentially reallocable
+	[ ] There is no way to unallocate a string allocated with "alloc_string"
+	[ ] Revise all string comparsion cases - strncmp/strncpy do not work as expected
+	[ ] Chunk file merger doesn't properly merge first (header) chunk
+	[ ] Convar parser doesn't parse long strings (in brackets)
+	[ ] Erasing previous character using backspace in console will break UTF8 encoding
+	[ ] Full support for CONVAR_CSTRING type
+
+	[X] Convar: can't request convar with more than 1 parameter
+	[X] Convar.Execute doesn't check existance of the convar
+	[X] [unrelated] Convar: can't GetString from convars which have read callback
+	[X] [unrelated] Convar: can't SetString to float and int datatypes
+	[X] Chunk loader was reading beyond chunk limits in all formats, because of error in generation tools
+	[X] Font manager performs russian-letters-fix for GTA2 fonts. This must be done by convert tools
+	[X] Add support for UTF-8
+	[X] Font.TextWidth(), Font.TextHeight() not implemented (and generally font rendering sucks)
+	[X] Deltatime using "curtime()" instead of GLFW timer
+	[X] Huge deltatime in first server frame (due to resources load)
+	[X] Map caching code uses last access time from client timer
+	[X] Leak in Map.LoadMap when map file didn't exist
+	[X] Precaching empty map from [-33554432;-33554432] during game, or during load
+	[X] "Assert failed: sine (.\matrix.cpp:23)" in log
+	[X] "Warning: animation chunk is empty" instead of "Loading animations..." message
+	[X] logWrite didnt properly unlock mutex if log could not be written to
+
+
+Speeling errors:
+	[ ]
+
+	[X] "SPRG" instead of "SPRX", "SPRB" instead of "PALB" in STY2TEX
+
+
+Network:
+	[ ] NewConnection() isn't protected by mutex against connection list change
+
+	[X] Networking might not be thread-safe
+	[X] Potential crash if message is still generated (NewMessage(), but before Send()), and connection closes. Add mutex to account for this!
+
+
+Map design:
+	[ ] No connection between three GTA2 districts

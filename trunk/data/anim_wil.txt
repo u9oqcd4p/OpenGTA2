@@ -1,0 +1,17 @@
+CHUNK ZTEX
+  INT 130
+ENDCHUNK
+
+
+CHUNK ANIM
+
+ENDCHUNK
+
+CHUNK PORN
+  INT 0		Animation count
+
+  BYTE 0	Water animation
+  STR WIL_608
+  STR WIL_619
+  FLT 10
+ENDCHUNK
