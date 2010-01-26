@@ -15,7 +15,7 @@ Physics and behaviour:
 
 
 Crashes and freezes:
-	[ ] Crashes in Animation::Update (perhaps only on linux if game content is not available in gta/)
+	[ ] Crashes in Animation::Update
 	[ ] Running two copies of the game freezes newest one
 	[ ] Crash in block tracing (when map was removed before trace was complete/in middle of trace)
 	[ ] Crash when attempting to write to server listen connection (after closing it causes heap overflow)
