@@ -54,7 +54,18 @@ function safe_copy {
 
 # Copy needed files
 safe_copy "fstyle.sty" "${1}/data" "70f7f4b491a2607e00651cf3a08e378e"
-
+safe_copy "wil.sty" "${1}/data" "a7410e70d7d3ef1129d62a0882dfdd6d"
+safe_copy "ste.sty" "${1}/data" "aafb64323b2dca7c39e38febc4f86df5"
+safe_copy "bil.sty" "${1}/data" "64a073cb3562ff22209500b608f1d803"
+safe_copy "wil.gmp" "${1}/data" "07666d575c666cd9d81b79a1b7dc4442"
+safe_copy "ste.gmp" "${1}/data" "c2daac310227cc7b71a6f79ebfb8f38c"
+safe_copy "bil.gmp" "${1}/data" "4ecd60b40649b1abab1653c171a931c3"
+#safe_copy "wil.sdt" "${1}/data" ""
+#safe_copy "wil.raw" "${1}/data" ""
+#safe_copy "ste.sdt" "${1}/data" ""
+#safe_copy "ste.raw" "${1}/data" ""
+safe_copy "bil.sdt" "${1}/data/Audio" "e7f1178f12d2bedd0bf73045a7238d1d"
+safe_copy "bil.raw" "${1}/data/Audio" "ee6638e481aa7f99ce47a0e145dd3d62"
 
 
 # Finish work
