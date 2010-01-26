@@ -11,7 +11,7 @@ bool logDisableDebugOutput;
 void logStart() {
 	FILE* logfile = fopen("opengta2.log","w+");
 	if (!logfile) {
-		printf("[%.3f] Error: unable to write log file\n");
+		printf("[%.3f] Error: unable to write log file\n", curtime());
 	} else fclose(logfile);
 
 	#ifndef DEDICATED_SERVER

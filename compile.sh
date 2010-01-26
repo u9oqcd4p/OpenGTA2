@@ -108,7 +108,7 @@ OPENGTA2=(			\
 #compile "opengta2" "$arg"
 
 # Testweisen nur einzelne Dateien uebersetzen
-TEST_FILES=( "console" "font" )
+TEST_FILES=( "log" )
 arg=`echo ${TEST_FILES[@]}`
 compile "opengta2" "$arg"
 
