@@ -449,8 +449,13 @@ void Network_Connection::Update() {
 			clientConnection->peerAddress = fromAddress;
 			clientConnection->socketHandle = clientHandle;
 
+			#ifdef WIN32
 			logWritem("network: incoming connection %.8X:%d (socket: %d, cid %d)",
-				fromAddress.sin_addr.S_un.S_addr,htons(fromAddress.sin_port),clientHandle,Network.Connections.Count-1);
+				fromAddress.sin_addr.S_un.S_addr, htons(fromAddress.sin_port), clientHandle, Network.Connections.Count - 1);
+			#else
+			logWritem("network: incoming connection %.8X:%d (socket: %d, cid %d)",
+				fromAddress.sin_addr.s_addr, htons(fromAddress.sin_port), clientHandle, Network.Connections.Count - 1);
+			#endif
 		}
 	} else {
 		LockID lockID = Thread.EnterLock(MUTEX_NETWORK_RECVBUF);
