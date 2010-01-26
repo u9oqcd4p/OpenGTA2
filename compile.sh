@@ -2,6 +2,7 @@
 #
 # Uebersetzt OpenGTA2 unter Ubuntu
 CC="g++"
+#INC="-Iinclude"
 INC=""
 OPT=""
 TMP=".tmp-opengta2"
@@ -15,12 +16,12 @@ mkdir "${TMP}"
 
 
 # Zum Build benoetigte Dateien kopieren
+cp -r "include" "${TMP}/include"
 cp -r "opengta2" "${TMP}/opengta2"
 
 
 # Folgende Dateien muessen uebersetzt und gelinkt werden
-FILES=(	"opengta2/main"		\
-	"opengta2/malloc"
+FILES=(	"opengta2/main"
 )
 
 
