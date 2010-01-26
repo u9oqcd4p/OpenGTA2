@@ -1,0 +1,18 @@
+OpenGTA2
+========
+
+
+Quick Start
+-----------
+
+ * Download GTA2INSTALLER.ZIP (http://www.rockstargames.com/classics/) into
+   ./gta2/
+ * Execute ./gta2/unpack-gta2installer.sh, this will verify the downloaded
+   GTA2INSTALLER.ZIP and unpack it as far as possible
+ * Execute ./gta2/GTA2.exe with wine
+ * Install GTA2 into $directory
+ * Change into the ./gta2 directory and install-gta2.sh $directory, this will
+   copy all neede files from the GTA2 installation into the gta2 directory.
+   You can uninstall the original GTA2 after this step
+
+
