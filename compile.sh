@@ -8,6 +8,47 @@ OPT=""
 TMP=".tmp-opengta2"
 
 
+
+# Alle Sourcedateien in einem Ordner compilieren
+#
+# @param $1 Ordner in welchem sich die Sourcedateien befinden
+# @param $2 Array von in diesem Ordner zu uebersetzenden Quelldateien
+function compile {
+	if [ -d "${TMP}" ]; then
+		cd "${TMP}"
+	else
+		echo "Warning: could not change into directory ${TMP} (pwd is `pwd`)"
+	fi
+
+	if [ -d "${1}" ]; then
+		echo "Compiling sources in directory ${1}"
+	else
+		echo "Directory ${1} doesn't exist"
+	fi
+
+	CNT=0
+	TOTAL=${#2}
+	for FILE in $2 
+	do
+		# Information an Benutzer ausgeben
+		let CNT=CNT+1
+		echo "Compiling ${1}/${FILE} (${CNT}/$TOTAL)"
+
+		# Handelt es sich um eine C++ Quellcodedatei?
+		if [ -e "${1}/${FILE}.cpp" ]; then
+			$CC $INC $OPT -c "${1}/${FILE}.cpp" -o "${1}/${FILE}.o"
+		else
+			echo "Don't know how to compile ${1}/${FILE} (file ${1}/$FILE.{cpp} doesn't exist)"
+		fi
+	done
+
+	cd "../"
+}
+
+
+
+
+
 # Altes temporaeres Verzeichnis loeschen
 if [ -d "${TMP}" ]; then
 	rm -r "${TMP}"
@@ -60,17 +101,9 @@ OPENGTA2=(			\
 )
 
 
-# Alle Sourcedateien compilieren
-cd "${TMP}"
-for FILE in $FILES 
-do
-	# Handelt es sich um eine C++ Quellcodedatei?
-	if [ -e "${FILE}.cpp" ]; then
-		$CC $INC $OPT -c "${FILE}.cpp" -o "${FILE}.o"
-	else
-		echo "Don't know how to compile ${FILE} (file $FILE.{cpp} doesn't exist)"
-	fi
-done
+# Kompletten opengta2 Ordner uebersetzen
+compile "opengta2" $OPENGTA2
+
 
 
 
