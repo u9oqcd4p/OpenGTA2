@@ -1,0 +1,123 @@
+================================================================================
+  OpenGBH texture file format (TEX)
+================================================================================
+          Notation used in this file: "[OFFSET][SIZE] Description"
+
+This is a chunked file. It consists out of several different chunks, each one
+with a header. The general structure for chunk header is:
+  [0][4] Chunk ID
+  [4][4] Chunk size in bytes, not including 8 bytes of chunk header
+
+  struct {
+    unsigned int ChunkID;
+    unsigned int ChunkSize;
+  } Psuedo-C structure;
+
+100 First draft
+110
+120
+130 Added new fonts format
+
+
+
+
+
+================================================================================
+ZTEX (File header):
+  [0][4] File version (130 is the current version)
+  
+  struct {
+    unsigned int FileVersion;
+  };
+
+(4 bytes long)
+
+
+
+--------------------------------------------------------------------------------
+TILE (64x64 tiles, 2048x2048 pixels 32-bit tileset):
+  [0][1] Tileset name length
+  [1][?] Tileset name
+  [?][?] 2048x2048 atlas in RGBA format (SIZE DETERMINED BY CHUNK SIZE!)
+
+  struct {
+    unsigned char NameLength;
+    char Name[NameLength];
+    unsigned char AtlasData[ChunkSize - 1 - NameLength];
+  };
+  
+If chunk size is less than 2048x2048x4 bytes, then it will read only first
+bytes, and fill the rest of atlas with something unexpected.
+
+Example: we have chunk size of 10000 bytes, and our tileset name is "RTM".
+Tileset name length is 3 bytes. Atlas data is (10000-3-1) = 9996 bytes long.
+
+Only 9996 bytes will be read, the rest is filled with some random pattern.
+
+
+
+--------------------------------------------------------------------------------
+SPR0 (2048x2048 pixels 32-bit texture atlas):
+  [0][1] Spriteset name length
+  [1][?] Spriteset name (see spriteset name length)
+
+  [?][4] Sprite count (number of sprites)
+    Sprite entires follow (see Sprite Count):
+      [0][1] Sprite name length
+      [1][?] Sprite name (see length)
+      [?+0][4]  Boundary left
+      [?+4][4]  Boundary right
+      [?+8][4]  Boundary top
+      [?+12][4] Boundary bottom
+    
+  [?][?] 2048x2048 atlas in RGBA format (SIZE DETERMINED BY CHUNK SIZE!)
+         (see TILE chunk)
+
+  struct {
+    unsigned char NameLength;
+    char Name[NameLength];
+    unsigned int Left;
+    unsigned int Right;
+    unsigned int Top;
+    unsigned int Bottom;
+  } SpriteEntry;
+         
+  struct {
+    unsigned char NameLength;
+    char Name[NameLength];
+    unsigned int SpriteCount;
+    
+    SpriteEntry Sprites[SpriteCount];
+  };
+       
+       
+       
+--------------------------------------------------------------------------------
+FNT0 (Font tied to a SPR0 spriteset):
+  [0][1] Font count
+    Font entries follow:
+      [0][1] Font name length
+      [1][?] Font name (GTA2FONT_123)
+      [?+0][2] Character count (in font)
+      [?+2][?] Font character descriptions
+        [0][1] Character graphics name length (set to 0 if no char present)
+        [1][?] Character graphics name
+      
+  struct {
+    char GraphicsNameLength;
+    char GraphicsName[GraphicsNameLength];
+  } CharEntry;
+      
+  struct {
+    char NameLength;
+    char Name[NameLength];
+    short CharacterCount;
+    CharEntry Characters[CharacterCount];
+  } FontEntry;
+  
+  struct {
+    unsigned char FontCount;
+    char NameLength;
+    char Name[NameLength];
+    FontEntry FontEntries[FontCount];
+  };

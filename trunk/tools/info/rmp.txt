@@ -1,0 +1,114 @@
+================================================================================
+  OpenGBH map data structures (in psuedo-C)
+================================================================================
+
+ The file format is still evolving. No full description yet, look into sources!
+
+
+  struct {
+    unsigned short tex_left;
+    unsigned short tex_right;
+    unsigned short tex_top;
+    unsigned short tex_bottom;
+    unsigned short tex_lid;
+    
+    unsigned char param_left;
+    unsigned char param_right;
+    unsigned char param_top;
+    unsigned char param_bottom;
+    unsigned char param_lid;
+    
+    unsigned short arrows;
+    unsigned short block_type;
+    
+    unsigned char padding0;
+    unsigned char padding1;
+    unsigned char padding2;
+    unsigned char padding3;
+  } rmp_block_info;
+
+
+  struct {
+    unsigned int owner;
+    float height_offset;
+  } rmp_column_info;
+
+
+  struct {
+    unsigned int ARGB;
+    unsigned int padding;
+    float x,y,z,radius;
+    float u,v,w,k;
+  } rmp_light;
+  
+
+  struct {
+    int CellX;
+    int CellY;
+    char District[4];
+
+    rmp_block_info  rmp_city_scape	[16][64][64];
+    rmp_block_info  rmp_interior_scape	[16][64][64];
+    rmp_column_info rmp_columns		[64][64];
+  } rmp_cityscape;
+
+================================================================================
+  OpenGBH map file format (RMP)
+================================================================================
+          Notation used in this file: "[OFFSET][SIZE] Description"
+
+This is a chunked file. It consists out of several different chunks, each one
+with a header. The general structure for chunk header is:
+  [0][4] Chunk ID
+  [4][4] Chunk size in bytes, not including 8 bytes of chunk header
+
+  struct {
+    unsigned int ChunkID;
+    unsigned int ChunkSize;
+  } Psuedo-C structure;
+
+
+
+
+
+
+================================================================================
+ZRMP (File header):
+  [0][4] File version (160 is the current version)
+  
+  struct {
+    unsigned int FileVersion;
+  };
+
+(4 bytes long)
+
+
+
+--------------------------------------------------------------------------------
+RMAP (OpenGBH map without interior):
+  [0 ][4] Cell X on global map
+  [4 ][4] Cell Y on global map
+  [8 ][4] District name
+  [12][?] 4 tileset names
+    Every tileset name is a record like this:
+    [0][1] Tileset name length
+    [1][?] Tileset name
+    
+  [?  ][1] Map height in blocks
+  [?+1][?] Map blocks (rmp_block_info)
+  [?+?][?] Map columns (rmp_column_info)
+  
+  struct {
+    unsigned char NameLength;
+    char Name[NameLength];
+  } TilesetName;
+  
+  struct {
+    int CellX;
+    int CellY;
+    char District[4];
+    TilesetName Tilesets[4];
+    unsigned char MapHeight;
+    rmp_blocks_info Blocks[64*64*MapHeight];
+    rmp_column_info Columns[64*64];
+  };

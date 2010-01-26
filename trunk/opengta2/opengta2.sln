@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opengta2", "opengta2.vcproj", "{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (dedicated server)|Win32 = Debug (dedicated server)|Win32
+		Debug (test)|Win32 = Debug (test)|Win32
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Debug (dedicated server)|Win32.ActiveCfg = Debug (dedicated server)|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Debug (dedicated server)|Win32.Build.0 = Debug (dedicated server)|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Debug (test)|Win32.ActiveCfg = Debug (test)|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Debug (test)|Win32.Build.0 = Debug (test)|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Debug|Win32.Build.0 = Debug|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Release|Win32.ActiveCfg = Release|Win32
+		{2F3C8B4C-479F-4EA1-A067-E82ADDC575E4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
