@@ -42,15 +42,15 @@ struct Font_Manager {
 	FontID Message;
 
 	//Printing
-	void print(FontID fontID, Vector2f pos, char* text);
+	void print(FontID fontID, Vector2f pos, char const* text);
 	void printf(FontID fontID, Vector2f pos, const char *_Format, ...);
 	
 	void SetScale(float scale);
 	void SetAlign(int align);
 	void Reset();
-	void TextDimensions(FontID fontID, char* text, float* textWidth, float* textHeight);
-	float TextWidth(FontID fontID, char* text);
-	float TextHeight(FontID fontID, char* text);
+	void TextDimensions(FontID fontID, char const* text, float* textWidth, float* textHeight);
+	float TextWidth(FontID fontID, char const* text);
+	float TextHeight(FontID fontID, char const* text);
 
 	void BeginFastRender() { fontFastRender = true; }
 	void EndFastRender() { fontFastRender = false; }

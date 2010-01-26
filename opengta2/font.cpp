@@ -67,13 +67,13 @@ FontID Font_Manager::getFontID(const char* FontName) {
 	return BAD_ID;
 }
 
-float Font_Manager::TextWidth(FontID fontID, char* text) {
+float Font_Manager::TextWidth(FontID fontID, char const* text) {
 	float textWidth;
 	TextDimensions(fontID, text, &textWidth, 0);
 	return textWidth;
 }
 
-float Font_Manager::TextHeight(FontID fontID, char* text) {
+float Font_Manager::TextHeight(FontID fontID, char const* text) {
 	float textHeight;
 	TextDimensions(fontID, text, 0, &textHeight);
 	return textHeight;
@@ -102,7 +102,7 @@ void Font_Manager::printf(FontID fontID, Vector2f pos, const char *fmt, ...) {
 	print(fontID,pos,buf);
 }
 
-void Font_Manager::TextDimensions(FontID fontID, char* text, float* textWidth, float* textHeight) {
+void Font_Manager::TextDimensions(FontID fontID, char const* text, float* textWidth, float* textHeight) {
 	if (textWidth) *textWidth = 0;
 	if (textHeight) *textHeight = 0;
 	if (fontID == BAD_ID) return;
@@ -173,7 +173,7 @@ void Font_Manager::TextDimensions(FontID fontID, char* text, float* textWidth, f
 	}
 }
 
-void Font_Manager::print(FontID fontID, Vector2f pos, char* text) {
+void Font_Manager::print(FontID fontID, Vector2f pos, char const* text) {
 	if (fontID == BAD_ID) return;
 
 	if (!fontFastRender) Screen.Start2D();

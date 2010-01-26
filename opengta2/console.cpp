@@ -164,8 +164,10 @@ void Console_Manager::writeText(const char* text) {
 }
 
 void Console_Manager::Render() {
+	static char const* W = "W";
+
 	if (Visible) {
-		float charHeight = Fonts.TextHeight(consoleFont,"W")*18.0f/25.0f;
+		float charHeight = Fonts.TextHeight(consoleFont, W) * 18.0f / 25.0f;
 		int numLinesVisible = (int)((Screen.Height - 16)/charHeight - 3);
 
 		Fonts.Reset();
@@ -196,9 +198,10 @@ void Console_Manager::Render() {
 			glColor4f(0.7f,0.7f,1.0f,1.0f);
 			Fonts.print(consoleFont,Vector2f(8.0f,8.0f+numLinesVisible*charHeight),strBuf);
 			if (fmod(Timer.Time(),0.5f) > 0.25f) {
+				static char const* _ = "_";
 				Fonts.print(consoleFont,
 					Vector2f(8.0f+Fonts.TextWidth(consoleFont,strBuf),
-					8.0f+numLinesVisible*charHeight),"_");
+					8.0f+numLinesVisible*charHeight), _);
 			}
 
 			//Draw.FlushSprites();
