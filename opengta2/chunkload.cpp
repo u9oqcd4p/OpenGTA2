@@ -1,5 +1,9 @@
 #include "opengta.h"
 
+
+
+
+
 void Chunk_Loader::Open(const char* FileName) {
 	Data = fopen(FileName,"rb");
 	if (Data) {
@@ -8,9 +12,28 @@ void Chunk_Loader::Open(const char* FileName) {
 		strncpy(fileName,FileName,255);
 		fileName[255] = 0;
 
-		fread(fileFormat,1,4,Data);
-		fread(&chunkSize,4,1,Data);
-		fread(&fileVersion,4,1,Data);
+		/* Wrapper for fread which logs an error if the expected amount
+		 * of bytes couldn't be read
+		 */
+		#define FREAD(dest, size, times, src)				\
+		{								\
+			size_t const bytes_expected = (size) * (times);		\
+			size_t const bytes_read = fread(			\
+				(dest), (size), (times), (src));		\
+										\
+			if (bytes_expected != bytes_read) {			\
+				logWrite("Expected to read %d (%d * %d) bytes from %s into %s but could only read %d bytes",										\
+					bytes_expected, (size), (times),	\
+					#src, #dest,				\
+					bytes_read				\
+				);						\
+			}							\
+		}								\
+
+		FREAD(fileFormat, 1, 4, Data);
+		FREAD(&chunkSize, 4, 1, Data);
+		FREAD(&fileVersion, 4, 1, Data);
+		#undef FREAD
 
 		chunkPos = 4;
 		chunkSize = 4;
