@@ -17,7 +17,11 @@ void logError(const char *fmt, ...);
 
 #ifdef _DEBUG
 	#define assert(what) ((what) ? ((void)0) : logWrite("Assert failed: " #what " (%s:%d)", __FILE__, __LINE__))
-	#define breakpoint() _asm {int 3}
+	#ifdef WIN32
+	#define breakpoint()	_asm {int 3}
+	#else
+	#define breakpoint()	/* How to make a breakpoint with gcc? */
+	#endif
 #else
 	#define assert(nothing) ((void)0)
 	#define breakpoint() 
