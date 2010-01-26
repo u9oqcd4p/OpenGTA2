@@ -23,3 +23,8 @@ You can download the GTA2 files for free (and, of course, legal) from the here:
  * http://www.rockstargames.com/classics/?id=3
  * http://www.chip.de/downloads/Grand-Theft-Auto-GTA-2_13015291.html
 
+
+If you have downloaded the GTA2INSTALLER.ZIP into this directory, run the
+unpack-gta2installer.sh script and follow the instructions.
+
+

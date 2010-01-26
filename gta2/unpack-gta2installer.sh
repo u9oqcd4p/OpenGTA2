@@ -43,7 +43,9 @@ echo " ok"
 
 # Sadly I don't know how to unpack the GTA.exe, it has something to do with
 # installengine.com but I have not yet had the time to figure out the format
+unzip "${INSTALLER}"
 echo "I'm sorry, you have to run wine GTA.exe to install the game"
+echo "After installation finished, you have to call install-gta2.sh with the directory you installed the game into as first parameter"
 
 
 
