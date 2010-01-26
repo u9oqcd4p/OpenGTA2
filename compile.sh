@@ -2,6 +2,8 @@
 #
 # Uebersetzt OpenGTA2 unter Ubuntu
 CC="g++"
+INC=""
+OPT=""
 TMP=".tmp-opengta2"
 
 
@@ -22,6 +24,22 @@ FILES=(	"main"
 )
 
 
-# Alle Sourcedateien loeschen
-$CC --help
+# Alle Sourcedateien compilieren
+cd "${TMP}"
+for $FILE in $FILES 
+do
+	# Handelt es sich um eine C++ Quellcodedatei?
+	if [ -e "${FILE}.cpp" ]; then
+		$CC $INC $OPT -c "${FILE}.cpp" -o "${FILE}.o"
+	else
+		echo "Don't know how to compile ${FILE}"
+	fi
+done
+
+
+
+
+
+
+
 
