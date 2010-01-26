@@ -1,0 +1,27 @@
+CHUNK ZTEX
+  INT 130
+ENDCHUNK
+
+
+CHUNK ANIM
+
+ENDCHUNK
+
+CHUNK PORN
+  INT 0		Animation count
+
+  BYTE 0	Water animation
+  STR BIL_608
+  STR BIL_619
+  FLT 10
+
+  BYTE 2	Jesus saves 1
+  STR STE_384
+  STR STE_386
+  FLT 2
+
+  BYTE 2	Jesus saves 2
+  STR STE_385
+  STR STE_387
+  FLT 2
+ENDCHUNK

@@ -1,0 +1,18 @@
+It's not very legal to put original GTA2 files here, so copy these files over from your GTA2 copy:
+
+fstyle.sty
+wil.sty
+ste.sty
+bil.sty
+
+wil.gmp
+ste.gmp
+bil.gmp
+
+Not yet required, but will be:
+wil.sdt
+wil.raw
+ste.sdt
+ste.raw
+bil.sdt
+bil.raw
