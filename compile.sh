@@ -30,7 +30,7 @@ function compile {
 
 	CNT=0
 	TOTAL=${#FILES[@]}
-	for FILE in $FILES
+	for FILE in $2
 	do
 		# Information an Benutzer ausgeben
 		let CNT=CNT+1
