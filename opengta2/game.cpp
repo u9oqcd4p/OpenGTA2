@@ -45,9 +45,9 @@ bool Game_Manager::IsClient() {
 	return !IsServer();
 }
 
-void Game_Manager::ConnectToServer(char* host, int port) {
+void Game_Manager::ConnectToServer(char const* host, int port) {
 	Network.Disconnect();
-	Network.ConnectToServer(host,port);
+	Network.ConnectToServer(host, port);
 	if (Network.IsConnected) {
 		Peds.Reinitialize();
 		Clients.Reinitialize();

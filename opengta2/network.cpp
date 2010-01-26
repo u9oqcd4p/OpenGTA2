@@ -265,7 +265,7 @@ void Network_Manager::StartServer(int port) {
 	IsConnected = false;
 }
 
-void Network_Manager::ConnectToServer(char* host, int port) {
+void Network_Manager::ConnectToServer(char const* host, int port) {
 	logWrite("Connecting to server %s:%d",host,port);
 	Network_Connection* Connection = NewConnection();
 	Connection->socketHandle = -1;
@@ -316,7 +316,7 @@ void Network_Manager::QueryServer(int queryType) {
 
 
 
-bool Network_Connection::Open(char* host, int port) {
+bool Network_Connection::Open(char const* host, int port) {
 	if (socketHandle >= 0) Close();
 	LockID lockID1 = Thread.EnterLock(MUTEX_NETWORK_SENDBUF);
 	LockID lockID2 = Thread.EnterLock(MUTEX_NETWORK_RECVBUF);

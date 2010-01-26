@@ -21,7 +21,7 @@ struct Game_Manager {
 	bool IsClient();
 
 	//Connect to server
-	void ConnectToServer(char* host, int port);
+	void ConnectToServer(char const* host, int port);
 	//Start server
 	void StartServer(int port);
 	//Disconnect from server/stop

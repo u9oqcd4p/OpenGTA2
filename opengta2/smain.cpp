@@ -33,7 +33,8 @@ void GLFWCALL serverMain(void*) {
 		Game.StartServer(99);
 		for (int i = 0; i < 10; i++) Peds.Create(Vector3f(430.5f,446.5f,15.0f));
 	#endif
-	Game.ConnectToServer("93.126.99.23",99);
+	static char const* ip = "93.126.99.23";
+	Game.ConnectToServer(ip, 99);
 
 	while (Game.Running) {
 		//Process server timer

@@ -104,11 +104,11 @@ OPENGTA2=(			\
 
 
 # Kompletten opengta2 Ordner uebersetzen (@see http://www.faqs.org/docs/abs/HTML/assortedtips.html)
-#arg=`echo ${OPENGTA2[@]}`
+arg=`echo ${OPENGTA2[@]}`
 #compile "opengta2" "$arg"
 
 # Testweisen nur einzelne Dateien uebersetzen
-TEST_FILES=( "log" )
+TEST_FILES=( "smain" "game" "network" )
 arg=`echo ${TEST_FILES[@]}`
 compile "opengta2" "$arg"
 

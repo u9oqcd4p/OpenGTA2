@@ -64,7 +64,7 @@ struct Network_Message {
 
 struct Network_Connection {
 	//Open new connection to target host, port
-	bool Open(char* host, int port);
+	bool Open(char const* host, int port);
 	//Close connection
 	void Close();
 
@@ -113,7 +113,7 @@ struct Network_Manager {
 	//Start a new server
 	void StartServer(int port);
 	//Connect to server
-	void ConnectToServer(char* host, int port);
+	void ConnectToServer(char const* host, int port);
 	//Disconnect from server
 	void Disconnect();
 
