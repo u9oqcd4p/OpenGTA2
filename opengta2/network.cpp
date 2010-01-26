@@ -402,12 +402,20 @@ bool Network_Connection::Open(char* host, int port) {
 	}
 
 	#ifdef WIN32
-	    unsigned long int nonblock = 1;
-	    ioctlsocket(socketHandle, FIONBIO, &nonblock);
+		unsigned long int nonblock = 1;
+		ioctlsocket(socketHandle, FIONBIO, &nonblock);
 	#else
-	    int flags = fcntl(socketHandle, F_GETFL, 0);
-	    if (0 > flags) return;
-		if (0 > fcntl(socketHandle, F_SETFL, flags | O_NONBLOCK)) return;
+		// XXX Locks aren't released o_O
+		int flags = fcntl(socketHandle, F_GETFL, 0);
+		if (0 > flags) {
+			logWritem("Unexpected condition in %s:%d", __FILE__, __LINE__);
+			return false;
+		}
+
+		if (0 > fcntl(socketHandle, F_SETFL, flags | O_NONBLOCK)) {
+			logWritem("Unexpected condition in %s:%d", __FILE__, __LINE__);
+			return false;
+		}
 	#endif
 
 	Thread.LeaveLock(lockID1);
