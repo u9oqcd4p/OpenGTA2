@@ -14,6 +14,8 @@ TMP=".tmp-opengta2"
 # @param $1 Ordner in welchem sich die Sourcedateien befinden
 # @param $2 Array von in diesem Ordner zu uebersetzenden Quelldateien
 function compile {
+	local FILES=(`echo "$2"`)
+
 	if [ -d "${TMP}" ]; then
 		cd "${TMP}"
 	else
@@ -27,8 +29,8 @@ function compile {
 	fi
 
 	CNT=0
-	TOTAL=${#2}
-	for FILE in $2 
+	TOTAL=${#FILES[@]}
+	for FILE in $FILES
 	do
 		# Information an Benutzer ausgeben
 		let CNT=CNT+1
@@ -97,12 +99,13 @@ OPENGTA2=(			\
 	"timer"			\
 	"utf8"			\
 	"vbuffer"		\
-	"vector"
+	"vector"		\
 )
 
 
-# Kompletten opengta2 Ordner uebersetzen
-compile "opengta2" $OPENGTA2
+# Kompletten opengta2 Ordner uebersetzen (@see http://www.faqs.org/docs/abs/HTML/assortedtips.html)
+arg=`echo ${OPENGTA2[@]}`
+compile "opengta2" "$arg"
 
 
 
