@@ -5,6 +5,7 @@
 	#undef APIENTRY
 	#include <winsock2.h>
 #else
+	#include <errno.h>
 	#include <sys/socket.h>
 	#include <netdb.h>
 	#include <arpa/inet.h>
@@ -251,7 +252,7 @@ void Network_Manager::StartServer(int port) {
 		#ifdef WIN32
 			logWrite("Error while starting game server! (Code: %d)",GetLastError());
 		#else
-			logWrite("Error while starting game server! (Code: %d)",errno());
+			logWrite("Error while starting game server! (Code: %d)",errno);
 		#endif
 		IsServer = false;
 		IsConnected = false;
@@ -271,7 +272,7 @@ void Network_Manager::ConnectToServer(char* host, int port) {
 		#ifdef WIN32
 			logWrite("Error while connecting to game server! (Code: %d)",GetLastError());
 		#else
-			logWrite("Error while connecting to game server! (Code: %d)",errno());
+			logWrite("Error while connecting to game server! (Code: %d)",errno);
 		#endif
 		return;
 	}
@@ -502,7 +503,11 @@ int Network_Connection::Send(void* buf, int size) {
 	if (socketHandle >= 0) {
 		int bytes = send(socketHandle, (char*)buf, size, 0);
 		if (bytes < 0) {
-			logWritem("network: socket write error %d, dropping (socket: %d)",GetLastError(),socketHandle);
+			#ifdef WIN32
+			logWritem("network: socket write error %d, dropping (socket: %d)", GetLastError(), socketHandle);
+			#else
+			logWritem("network: socket write error %d, dropping (socket: %d)", errno, socketHandle);
+			#endif
 			Close();
 			return 0;
 		}
@@ -523,7 +528,11 @@ int Network_Connection::Recv(void* buf, int size) {
 		#endif
 
 		if (bytes <= 0) { //FIXME: proper error handling
-			logWritem("network: socket read error %d, dropping (socket: %d)",GetLastError(),socketHandle);
+			#ifdef WIN32
+			logWritem("network: socket read error %d, dropping (socket: %d)", GetLastError(), socketHandle);
+			#else
+			logWritem("network: socket read error %d, dropping (socket: %d)", errno, socketHandle);
+			#endif
 			bytes = 0;
 			Close();
 		}
