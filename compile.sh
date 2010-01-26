@@ -8,7 +8,7 @@
 #
 CC="g++"
 LD="gcc"
-COMPILE_INCLUDES=""
+COMPILE_INCLUDES="-g -fPIC -Wall -Wpointer-arith"
 COMPILE_OPTIONS=""
 LINK_INCLUDES="-lm -lpthread -lXrandr -lGL -lGLU"
 LINK_OPTIONS=""
