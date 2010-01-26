@@ -5,6 +5,7 @@
 	#undef APIENTRY
 	#include <winsock2.h>
 #else
+	#include <fcntl.h>
 	#include <errno.h>
 	#include <sys/socket.h>
 	#include <netdb.h>
