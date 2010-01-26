@@ -2,11 +2,15 @@
 #
 # Uebersetzt OpenGTA2 unter Ubuntu
 #
+# Irgendwas stimmt mit glfw noch nicht ganz, zum einen benoetigt es, dass man
+# explizit mit libpthread und libXrandr linkt, zum anderen geht es nur, wenn
+# man es statisch linkt
+#
 CC="g++"
 LD="gcc"
 COMPILE_INCLUDES=""
 COMPILE_OPTIONS=""
-LINK_INCLUDES="-lm -lglfw -lGL -lGLU"
+LINK_INCLUDES="-lm -lpthread -lXrandr -lGL -lGLU"
 LINK_OPTIONS=""
 OUTPUT_FILE="opengta2.app"
 TMP=".tmp-opengta2"
@@ -85,7 +89,14 @@ function link {
 	TO_LINK=""
 	for FILE in $2
 	do
-		FILE="${1}/${FILE}.o"
+		# Wenn die Datei absolut referenziert ist, dann ist eine
+		# relative Referenzierung nicht mehr noetig
+		if [ -e "${FILE}" ]; then
+			FILE="${FILE}"
+		else
+			FILE="${1}/${FILE}.o"
+		fi
+
 		if [ -e "${FILE}" ]; then
 			TO_LINK="${TO_LINK} \"${FILE}\""
 		else
@@ -162,7 +173,7 @@ OPENGTA2=(			\
 # Kompletten opengta2 Ordner uebersetzen (@see http://www.faqs.org/docs/abs/HTML/assortedtips.html)
 arg=`echo ${OPENGTA2[@]}`
 compile "opengta2" "$arg"
-link "opengta2" "$arg" $OUTPUT_FILE
+link "opengta2" "$arg /usr/lib/libglfw.a" $OUTPUT_FILE
 
 # Testweisen nur einzelne Dateien uebersetzen
 #TEST_FILES=( "smain" "game" "network" )
