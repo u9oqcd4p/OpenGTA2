@@ -174,6 +174,7 @@ OPENGTA2=(			\
 arg=`echo ${OPENGTA2[@]}`
 compile "opengta2" "$arg"
 link "opengta2" "$arg /usr/lib/libglfw.a" $OUTPUT_FILE
+cp "${TMP}/${OUTPUT_FILE}" "${OUTPUT_FILE}"
 
 # Testweisen nur einzelne Dateien uebersetzen
 #TEST_FILES=( "smain" "game" "network" )
