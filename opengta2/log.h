@@ -20,7 +20,7 @@ void logError(const char *fmt, ...);
 	#ifdef WIN32
 	#define breakpoint()	_asm {int 3}
 	#else
-	#define breakpoint()	/* How to make a breakpoint with gcc? */
+	#define breakpoint()	logWrite("Reached breakpoint at %s:%d in function %s", __FILE__, __LINE__, __func__)
 	#endif
 #else
 	#define assert(nothing) ((void)0)
