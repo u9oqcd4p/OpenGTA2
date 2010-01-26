@@ -22,10 +22,11 @@ void Chunk_Loader::Open(const char* FileName) {
 				(dest), (size), (times), (src));		\
 										\
 			if (bytes_expected != bytes_read) {			\
-				logWrite("Expected to read %d (%d * %d) bytes from %s into %s but could only read %d bytes",										\
+				logWrite("Expected to read %d (%d * %d) bytes from %s into %s but could only read %d bytes in %s:%d (%s)",								\
 					bytes_expected, (size), (times),	\
 					#src, #dest,				\
-					bytes_read				\
+					bytes_read,				\
+					__FILE__, __LINE__, __func__		\
 				);						\
 			}							\
 		}								\
