@@ -19,20 +19,20 @@ cp -r "opengta2" "${TMP}/opengta2"
 
 
 # Folgende Dateien muessen uebersetzt und gelinkt werden
-FILES=(	"main"
-	"malloc"
+FILES=(	"opengta2/main"		\
+	"opengta2/malloc"
 )
 
 
 # Alle Sourcedateien compilieren
 cd "${TMP}"
-for $FILE in $FILES 
+for FILE in $FILES 
 do
 	# Handelt es sich um eine C++ Quellcodedatei?
 	if [ -e "${FILE}.cpp" ]; then
 		$CC $INC $OPT -c "${FILE}.cpp" -o "${FILE}.o"
 	else
-		echo "Don't know how to compile ${FILE}"
+		echo "Don't know how to compile ${FILE} (file $FILE.{cpp} doesn't exist)"
 	fi
 done
 
