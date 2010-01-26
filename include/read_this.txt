@@ -2,3 +2,7 @@ Put following files here:
 
 [NVIDIA CG SDK 
 cg.h
+
+
+As of 2010-01-26 you need the following packages installed on Ubuntu (jaunty):
+ * libglfw-dev
