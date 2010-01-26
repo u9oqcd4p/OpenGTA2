@@ -1,4 +1,5 @@
-It's not very legal to put original GTA2 files here, so copy these files over from your GTA2 copy:
+It's not very legal to put original GTA2 files here, so copy these files over
+from your GTA2 copy:
 
 fstyle.sty
 wil.sty
@@ -16,4 +17,9 @@ ste.sdt
 ste.raw
 bil.sdt
 bil.raw
+
+
+You can download the GTA2 files for free (and, of course, legal) from the here:
+ * http://www.rockstargames.com/classics/?id=3
+ * http://www.chip.de/downloads/Grand-Theft-Auto-GTA-2_13015291.html
 
