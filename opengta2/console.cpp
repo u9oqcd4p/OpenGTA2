@@ -1,5 +1,7 @@
 #include "opengta_cl.h"
 
+#include <stdarg.h>
+
 Console_Manager Console;
 
 void Console_Manager::Initialize() {
