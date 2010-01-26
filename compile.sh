@@ -21,7 +21,42 @@ cp -r "opengta2" "${TMP}/opengta2"
 
 
 # Folgende Dateien muessen uebersetzt und gelinkt werden
-FILES=(	"opengta2/main"
+OPENGTA2=(			\
+	"anim"			\
+	"camera"		\
+	"chunkload"		\
+	"clientlist"		\
+	"cmain"			\
+	"collision"		\
+	"console"		\
+	"convar"		\
+	"debugtest"		\
+	"draw"			\
+	"font"			\
+	"game"			\
+	"graphics"		\
+	"input"			\
+	"log"			\
+	"main"			\
+	"malloc"		\
+	"map"			\
+	"map_geom_cl"		\
+	"map_geom"		\
+	"map_render"		\
+	"matrix"		\
+	"network"		\
+	"ped"			\
+	"ped_mgr"		\
+	"ped_render"		\
+	"perfhud"		\
+	"screen"		\
+	"smain"			\
+	"texture_atlas"		\
+	"thread"		\
+	"timer"			\
+	"utf8"			\
+	"vbuffer"		\
+	"vector"
 )
 
 
