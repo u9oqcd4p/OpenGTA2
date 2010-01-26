@@ -9,7 +9,7 @@
 CC="g++"
 LD="gcc"
 COMPILE_INCLUDES="-g -fPIC -O2 -Wpointer-arith"
-COMPILE_OPTIONS=""
+COMPILE_OPTIONS="-D_DEBUG"
 LINK_INCLUDES="-lm -lpthread -lXrandr -lGL -lGLU"
 LINK_OPTIONS=""
 OUTPUT_FILE="opengta2.app"
