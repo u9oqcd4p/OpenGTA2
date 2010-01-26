@@ -387,8 +387,13 @@ bool Network_Connection::Open(char* host, int port) {
 			return false;
 		}
 
+		#ifdef WIN32
 		logWritem("network: starting server on %.8x:%d (backlog %d)",
-			peerAddress.sin_addr.S_un.S_addr,htons(peerAddress.sin_port),20);
+			peerAddress.sin_addr.S_un.S_addr, htons(peerAddress.sin_port), 20);
+		#else
+		logWritem("network: starting server on %.8x:%d (backlog %d)",
+			peerAddress.sin_addr.s_addr, htons(peerAddress.sin_port), 20);
+		#endif
 
 		listenConnection = true;
 	} else {
