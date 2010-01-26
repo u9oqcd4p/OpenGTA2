@@ -41,7 +41,9 @@ fi
 echo " ok"
 
 
-echo "ok"
+# Sadly I don't know how to unpack the GTA.exe, it has something to do with
+# installengine.com but I have not yet had the time to figure out the format
+echo "I'm sorry, you have to run wine GTA.exe to install the game"
 
 
 
