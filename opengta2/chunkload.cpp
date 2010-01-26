@@ -25,7 +25,7 @@ void Chunk_Loader::Close() {
 	if (Data) fclose(Data);
 }
 
-bool Chunk_Loader::IsFileFormat(const char FormatID[4], int FormatVersion) {
+bool Chunk_Loader::IsFileFormat(const char FormatID[4], uint FormatVersion) {
 	if ((Data) && ((strncmp(fileFormat,FormatID,4) == 0) && (fileVersion == FormatVersion))) {
 		return true;
 	} else return false;

@@ -9,7 +9,7 @@ struct Chunk_Loader {
 	//Close chunked file (dont forget this!)
 	void Close();
 	//Do file format ID and version match?
-	bool IsFileFormat(const char FormatID[4], int FormatVersion);
+	bool IsFileFormat(const char FormatID[4], uint FormatVersion);
 	//Read next chunk (skips any unread bytes in current one)
 	bool ReadChunk();
 	//Read from chunk
