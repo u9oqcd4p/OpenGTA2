@@ -5,7 +5,7 @@
 
 
 void Chunk_Loader::Open(const char* FileName) {
-	Data = fopen(FileName,"rb");
+	Data = fopen(FileName, "rb");
 	if (Data) {
 		fseek(Data,0,2); fileSize = ftell(Data); fseek(Data,0,0);
 	
@@ -24,7 +24,7 @@ void Chunk_Loader::Open(const char* FileName) {
 			if (bytes_expected != bytes_read) {			\
 				logWrite("Expected to read %d (%d * %d) bytes from %s into %s but could only read %d bytes in %s:%d (%s)",								\
 					bytes_expected, (size), (times),	\
-					#src, #dest,				\
+					FileName, #dest,			\
 					bytes_read,				\
 					__FILE__, __LINE__, __func__		\
 				);						\
