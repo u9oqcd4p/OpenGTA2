@@ -8,7 +8,7 @@
 #
 CC="g++"
 LD="gcc"
-COMPILE_INCLUDES="-g -fPIC -O2 -Wall -Wpointer-arith"
+COMPILE_INCLUDES="-g -fPIC -O2 -Wpointer-arith"
 COMPILE_OPTIONS=""
 LINK_INCLUDES="-lm -lpthread -lXrandr -lGL -lGLU"
 LINK_OPTIONS=""
@@ -177,7 +177,7 @@ link "opengta2" "$arg /usr/lib/libglfw.a" $OUTPUT_FILE
 cp "${TMP}/${OUTPUT_FILE}" "${OUTPUT_FILE}"
 
 # Testweisen nur einzelne Dateien uebersetzen
-#TEST_FILES=( "smain" "game" "network" )
+#TEST_FILES=( "chunkload" )
 #arg=`echo ${TEST_FILES[@]}`
 #compile "opengta2" "$arg"
 #link "opengta2" "$arg" "test.out"
