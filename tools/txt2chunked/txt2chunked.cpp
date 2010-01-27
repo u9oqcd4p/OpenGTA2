@@ -1,9 +1,14 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "../../include/fread.h"
 
 #pragma warning (disable : 4996)
 
+
+/**
+ * @warning Typesizing problems!
+ */
 int main(int argc, char* argv[])
 {
 	if (argc < 3) {
@@ -57,7 +62,7 @@ int main(int argc, char* argv[])
 
 				repeatSize = ftell(out) - repeatStart;
 				fseek(out,repeatStart,0);
-				fread(buf,1,repeatSize,out);
+				FREAD(buf, 1, repeatSize, out, argv[2], printf);
 				fseek(out,repeatStart+repeatSize,0);
 				for (int i = 1; i < repeatCount; i++) {
 					fwrite(buf,1,repeatSize,out);
@@ -68,13 +73,13 @@ int main(int argc, char* argv[])
 			}
 			if (strncmp(fileLine,"  BYTE",6) == 0) {
 				char temp;
-				sscanf(fileLine,"  BYTE %d",&temp);
+				sscanf(fileLine,"  BYTE %c", &temp);
 				fwrite(&temp,1,1,out);
 				chunkSize += 1;
 				continue;
 			}
 			if (strncmp(fileLine,"  WORD",6) == 0) {
-				unsigned short temp;
+				unsigned int temp;
 				sscanf(fileLine,"  WORD %d",&temp);
 				fwrite(&temp,2,1,out);
 				chunkSize += 2;

@@ -215,6 +215,10 @@ cp "tools/shared/texatlas.cpp" "${TMP}/tools/sty2tex"
 compile "tools/sty2tex" "$arg"
 link "tools/sty2tex" "$arg" "tools/sty2tex.app"
 
+TOOL_TXT2CHUNKED=( "txt2chunked" )
+arg=`echo ${TOOL_TXT2CHUNKED[@]}`
+compile "tools/txt2chunked" "$arg"
+link "tools/txt2chunked" "$arg" "tools/txt2chunked.app"
 
 
 
