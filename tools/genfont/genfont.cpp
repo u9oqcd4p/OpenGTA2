@@ -1,8 +1,12 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
-#include ".\..\..\include\dirent.h"
-#include ".\..\shared\texatlas.h"
+#ifdef WIN32
+	#include ".\..\..\include\dirent.h"
+#else
+	#include <dirent.h>
+#endif
+#include "../shared/texatlas.h"
 
 struct sprite_entry {
 	int w,h;

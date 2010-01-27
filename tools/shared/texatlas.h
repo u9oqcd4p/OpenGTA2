@@ -63,4 +63,6 @@ struct Texture_Atlas {
 	int atlasWidth,atlasHeight;
 };
 
-#endif TEXATLAS_H
+
+#endif 
+
