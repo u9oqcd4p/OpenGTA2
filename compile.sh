@@ -128,6 +128,7 @@ mkdir "${TMP}"
 # Zum Build benoetigte Dateien kopieren
 cp -r "include" "${TMP}/include"
 cp -r "opengta2" "${TMP}/opengta2"
+cp -r "tools" "${TMP}/tools"
 
 
 # Folgende Dateien muessen uebersetzt und gelinkt werden
@@ -172,9 +173,9 @@ OPENGTA2=(			\
 
 # Kompletten opengta2 Ordner uebersetzen (@see http://www.faqs.org/docs/abs/HTML/assortedtips.html)
 arg=`echo ${OPENGTA2[@]}`
-compile "opengta2" "$arg"
-link "opengta2" "$arg /usr/lib/libglfw.a" $OUTPUT_FILE
-cp "${TMP}/${OUTPUT_FILE}" "${OUTPUT_FILE}"
+#compile "opengta2" "$arg"
+#link "opengta2" "$arg /usr/lib/libglfw.a" $OUTPUT_FILE
+#cp "${TMP}/${OUTPUT_FILE}" "${OUTPUT_FILE}"
 
 # Testweisen nur einzelne Dateien uebersetzen
 #TEST_FILES=( "chunkload" )
@@ -184,7 +185,11 @@ cp "${TMP}/${OUTPUT_FILE}" "${OUTPUT_FILE}"
 
 
 
-
+# Compile Toolchain
+TOOL_CHUNKMERGE=( "chunkmerge" )
+arg=`echo ${TOOL_CHUNKMERGE[@]}`
+compile "tools/chunkmerge" "$arg"
+link "tools/chunkmerge" "$arg" "tools/chunkmerge.app"
 
 
 
