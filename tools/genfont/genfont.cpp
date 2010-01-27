@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "../../include/fread.h"
 #ifdef WIN32
 	#include ".\..\..\include\dirent.h"
 #else
@@ -63,11 +64,15 @@ static void loadsty(char* filename, char* setname_spr, char* setname_font) {
 		//Read the file
 		char Filename[256];
 		sprintf(Filename,"%s/%s",filename,direntry->d_name);
-		FILE* inbmp = fopen(Filename,"rb");
+		FILE* inbmp = fopen(Filename, "rb");
+		if (!inbmp) {
+			fprintf(stderr, "Could not open \"%s\" for reading\n", Filename);
+			return;
+		}
 		int width,height,charid;
 		fseek(inbmp,0x12,0);
-		fread(&width,4,1,inbmp);
-		fread(&height,4,1,inbmp);
+		FREAD(&width, 4, 1, inbmp, Filename, printf);
+		FREAD(&height, 4, 1, inbmp, Filename, printf);
 		fseek(inbmp,0x36,0);
 
 		char tempbuf[256];
@@ -89,15 +94,15 @@ static void loadsty(char* filename, char* setname_spr, char* setname_font) {
 			int align = 0;
 			for (int x = 0; x < width; x++) {
 				int color;// + 0xFF000000 * (color == 0)
-				align += fread(&color,3,1,inbmp);
+				align += fread(&color, 3, 1, inbmp);
 				*((int*)sprite_entries[sprite_count].rgbdata+x+y*width) =
 					color & 0xFFFFFF  + 0xFF000000 * ((color & 0xFFFFFF) != 0);
 			}
 			//if (align % 4 != 0)	fseek(inbmp,4 - (align % 4),1);
 			int test;
-			if ((align % 4) == 3) fread(&test,3,1,inbmp);
-			if ((align % 4) == 2) fread(&test,2,1,inbmp);
-			if ((align % 4) == 1) fread(&test,1,1,inbmp);
+			if ((align % 4) == 3) FREAD(&test, 3, 1, inbmp, Filename, printf);
+			if ((align % 4) == 2) FREAD(&test, 2, 1, inbmp, Filename, printf);
+			if ((align % 4) == 1) FREAD(&test, 1, 1, inbmp, Filename, printf);
 		}
 		//fread(
 

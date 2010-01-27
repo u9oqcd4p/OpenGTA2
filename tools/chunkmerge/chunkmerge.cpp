@@ -1,27 +1,10 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "../../include/fread.h"
 
 #pragma warning (disable : 4996)
 
-/* @warning Nearly a copy of a macro in opengta2/chunckload.cpp
- */
-#define FREAD(dest, size, times, src, filename)				\
-{									\
-	size_t const bytes_expected = (size) * (times);			\
-	size_t const bytes_read = fread(				\
-		(dest), (size), (times), (src));			\
-									\
-	if (bytes_expected != bytes_read) {				\
-		fprintf(stderr, "Expected to read %d (%d * %d) bytes from %s into %s but could only read %d bytes in %s:%d (%s)",								\
-			bytes_expected, (size), (times),		\
-			filename, #dest,				\
-			bytes_read,					\
-			__FILE__, __LINE__, __func__			\
-		);							\
-		continue;						\
-	}								\
-}									\
 
 
 int main(int argc, char* argv[])
@@ -44,9 +27,9 @@ int main(int argc, char* argv[])
 
 		printf("Merging file %d (%s)\n", i-1, argv[i]);
 
-		FREAD(chunkHeader, 1, 4, in, argv[i]);
-		FREAD(&chunkSize, 4, 1, in, argv[i]);
-		FREAD(&version, 4, 1, in, argv[i]);
+		FREAD(chunkHeader, 1, 4, in, argv[i], printf);
+		FREAD(&chunkSize, 4, 1, in, argv[i], printf);
+		FREAD(&version, 4, 1, in, argv[i], printf);
 
 		if (wroteHeader == false) {
 			fwrite(chunkHeader,1,4,out);
@@ -60,7 +43,7 @@ int main(int argc, char* argv[])
 		}
 
 		while (fread(chunkHeader, 1, 4, in)) {
-			FREAD(&chunkSize, 4, 1, in, argv[i]);
+			FREAD(&chunkSize, 4, 1, in, argv[i], printf);
 
 			printf("Copying chunk %s (size %d bytes)\n",chunkHeader,chunkSize);
 			if ((chunkSize < 0) || (chunkSize > 1024*1024*256)) {
@@ -71,7 +54,7 @@ int main(int argc, char* argv[])
 			void* buf;
 			buf = malloc(chunkSize);
 
-			FREAD(buf, 1, chunkSize, in, argv[i]);
+			FREAD(buf, 1, chunkSize, in, argv[i], printf);
 			fwrite(chunkHeader,1,4,out);
 			fwrite(&chunkSize,4,1,out);
 			fwrite(buf,1,chunkSize,out);
