@@ -203,6 +203,10 @@ arg=`echo ${TOOL_GMP2MAP[@]}`
 compile "tools/gmp2map" "$arg"
 link "tools/gmp2map" "$arg" "tools/gmp2map.app"
 
+TOOL_SDT2WAV=( "sdt2wav" )
+arg=`echo ${TOOL_SDT2WAV[@]}`
+compile "tools/sdt2wav" "$arg"
+link "tools/sdt2wav" "$arg" "tools/sdt2wav.app"
 
 
 

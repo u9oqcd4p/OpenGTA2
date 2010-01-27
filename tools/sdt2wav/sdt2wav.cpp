@@ -1,13 +1,19 @@
 #include "stdio.h"
+#include "../../include/fread.h"
 
 char gbuffer[1024*1024*8];
 FILE* log;
 
 void extract(char* regionname) {
-	char filename[256];
+	char filename_snd[256];
+	char filename_sdt[256];
+	char filename_wav[256];
 
-	sprintf(&filename[0],"%s.raw",regionname); FILE* snd = fopen(&filename[0],"rb");
-	sprintf(&filename[0],"%s.sdt",regionname); FILE* sdt = fopen(&filename[0],"rb");
+	/* I hope that snprintf will zero at least the last character in the
+	 * buffer but I'm to lazy to look it up
+	 */
+	snprintf(filename_snd, sizeof(filename_snd), "%s.raw", regionname); FILE* snd = fopen(filename_snd, "rb");
+	snprintf(filename_sdt, sizeof(filename_sdt), "%s.sdt", regionname); FILE* sdt = fopen(filename_sdt, "rb");
 
 	if ((!snd) || (!sdt)) {
 		printf("SDT2WAV: These files don't exist: %s.raw or %s.sdt\n",regionname,regionname);
@@ -27,15 +33,19 @@ void extract(char* regionname) {
 		printf("#%d | ",fileid);
 		fprintf(log,"#%d | ",fileid);
 
+		/* Using shorts and ints is quite dangerouse becouse C doesn't
+		 * garantee the byte size of these types (like reading 4 bytes
+		 * into a short will most likely not work)
+		 */
 		int start_offset,size,freq,unk1;
-		unsigned short unk2,unk3;
+		unsigned /*short*/ int unk2,unk3;
 
-		fread(&start_offset,4,1,sdt);
-		fread(&size,4,1,sdt);
-		fread(&freq,4,1,sdt);
-		fread(&unk1,4,1,sdt);
-		fread(&unk2,4,1,sdt);
-		fread(&unk3,4,1,sdt);
+		FREAD(&start_offset, 4, 1, sdt, filename_sdt, printf);
+		FREAD(&size, 4, 1, sdt, filename_sdt, printf);
+		FREAD(&freq, 4, 1, sdt, filename_sdt, printf);
+		FREAD(&unk1, 4, 1, sdt, filename_sdt, printf);
+		FREAD(&unk2, 4, 1, sdt, filename_sdt, printf);
+		FREAD(&unk3, 4, 1, sdt, filename_sdt, printf);
 
 		int t = ftell(sdt);
 
@@ -43,12 +53,12 @@ void extract(char* regionname) {
 		fprintf(log,"Offset: %d	| Size: %d	| Frequency: %d	| Position:  %d	| Loop start: %d |	Loop size: %d\n",start_offset,size,freq,t,unk2,unk3);
 
 		fseek(snd,start_offset,0);
-		fread(&gbuffer,size,1,snd);
+		FREAD(&gbuffer, size, 1, snd, filename_snd, printf);
 
 		//Write it
 		int data;
-		sprintf(&filename[0],"%s_%d.wav",regionname,fileid);
-		FILE* wave = fopen(&filename[0],"wb+");
+		snprintf(filename_wav, sizeof(filename_wav), "%s_%d.wav", regionname, fileid);
+		FILE* wave = fopen(filename_wav, "wb+");
 
 		//WAVE header:
 		data = 0x46464952;		fwrite(&data,4,1,wave); //RIFF
