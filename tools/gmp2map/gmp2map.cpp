@@ -359,6 +359,10 @@ static void loadmap(char* filename, char* dname, char* tilesetname, int offx, in
 	snprintf(fname, sizeof(fname), "%s.gmp", filename);
 
 	gmp = fopen(fname, "rb");
+	if (!gmp) {
+		fprintf(stderr, "Could not open %s for reading\n", fname);
+		exit(1);
+	}
 	fseek(gmp,0,2);
 	int filesize = ftell(gmp);
 	fseek(gmp,0,0);
