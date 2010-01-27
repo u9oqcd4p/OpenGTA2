@@ -70,6 +70,8 @@ extern FILE* bmp;
 extern unsigned int chunkheader;
 extern unsigned int chunkdata;
 
+extern void copy_tile(int tileid);
+extern void copy_sprite(int spriteid);
 extern void write_tile_bmp(int tileid);
 extern void write_tile_tex(int tileid);
 extern void save_tile(char* filename, int tileid);

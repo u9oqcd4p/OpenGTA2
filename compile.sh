@@ -208,6 +208,15 @@ arg=`echo ${TOOL_SDT2WAV[@]}`
 compile "tools/sdt2wav" "$arg"
 link "tools/sdt2wav" "$arg" "tools/sdt2wav.app"
 
+TOOL_STY2TEX=( "sty2tex" "tilewrite" "texatlas" )
+arg=`echo ${TOOL_STY2TEX[@]}`
+cp "tools/shared/texatlas.h" "${TMP}/tools/sty2tex"
+cp "tools/shared/texatlas.cpp" "${TMP}/tools/sty2tex"
+compile "tools/sty2tex" "$arg"
+link "tools/sty2tex" "$arg" "tools/sty2tex.app"
+
+
+
 
 
 

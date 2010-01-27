@@ -1,6 +1,6 @@
 #include "sty2tex.h"
 
-static void write_tile_bmp(int tileid) {
+void write_tile_bmp(int tileid) {
 	unsigned int vpallete = pallete_index[tileid];
 	//Write image...
 	for (int y=63;y>=0;y--) {
@@ -23,7 +23,7 @@ static void write_tile_bmp(int tileid) {
 	}
 }
 
-static void copy_tile(int tileid) {
+void copy_tile(int tileid) {
 	unsigned int vpallete = pallete_index[/*palletebase.tile + */tileid];
 	//Write image...
 	for (int y=0;y<64;y++) {
@@ -39,7 +39,7 @@ static void copy_tile(int tileid) {
 	}
 }
 
-static void save_tile(char* filename, int tileid) {
+void save_tile(char* filename, int tileid) {
 	bmp = fopen(filename,"wb+");
 	unsigned char bmpHeader[54] =
 	{
@@ -94,7 +94,7 @@ static void write_sprite_bmp(int spriteid) {
 	}
 }
 
-static void copy_sprite(int spriteid) {
+void copy_sprite(int spriteid) {
 	unsigned int vpallete = pallete_index[palletebase.tile + sprite_entries[spriteid].pad];
 	int sprh = sprite_entries[spriteid].h;
 	int sprw = sprite_entries[spriteid].w;
@@ -119,7 +119,7 @@ static void copy_sprite(int spriteid) {
 	}
 }
 
-static void save_sprite(char* filename, int spriteid) {
+void save_sprite(char* filename, int spriteid) {
 	bmp = fopen(filename,"wb+");
 	unsigned char bmpHeader[54] =
 	{

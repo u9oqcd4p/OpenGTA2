@@ -1,5 +1,5 @@
 #include "sty2tex.h"
-#include "tilewrite.cpp"
+#include "../../include/fread.h"
 
 unsigned int sprite_buffer[256*256];
 
@@ -47,8 +47,8 @@ static void loadsty(char* filename, char* exprt, char* setname_tex, char* setnam
 
 	printf("Reading %s...\n",filename);
 
-	fread(&chunkheader,1,4,sty);
-	fread(&chunkdata,2,1,sty);
+	FREAD(&chunkheader, 1, 4, sty, filename, printf);
+	FREAD(&chunkdata, 2, 1, sty, filename, printf);
 	if (chunkheader != 0x54534247) { //GBST
 		printf("Not a GTA2 style file!\n");
 		return;
@@ -66,8 +66,8 @@ static void loadsty(char* filename, char* exprt, char* setname_tex, char* setnam
 
 	//read map chunks	
 	while (ftell(sty) < filesize) {
-		fread(&chunkheader,1,4,sty);
-		fread(&chunkdata,1,4,sty);
+		FREAD(&chunkheader, 1, 4, sty, filename, printf);
+		FREAD(&chunkdata, 1, 4, sty, filename, printf);
 		printf("\n");
 
 		/*
@@ -90,25 +90,25 @@ static void loadsty(char* filename, char* exprt, char* setname_tex, char* setnam
 			case 0x584C4150: //PALX
 				printf("PALX: Found PALX chunk [size: %d]\n",chunkdata);
 				printf("PALX: Reading %d pallete entries\n",chunkdata/2);
-				fread(&pallete_index,1,32768,sty);
+				FREAD(&pallete_index,1,32768,sty, filename, printf);
 				break;
 			case 0x4C415050: //PPAL
 				printf("PPAL: Found PPAL chunk [size: %d]\n",chunkdata);
 				printf("PPAL: Reading %d pallete pages (%d palletes)\n",chunkdata/(64*1024),chunkdata/(1024));
-				fread(&pallete,4,chunkdata/4,sty);
+				FREAD(&pallete,4,chunkdata/4,sty, filename, printf);
 				break;
 			case 0x424C4150: //PALB
 				printf("PALB: Found PALB chunk [size: %d]\n",chunkdata);
 				printf("PALB: Reading pallete bases...\n");
 
-				fread(&palletebase.tile,2,1,sty);
-				fread(&palletebase.sprite,2,1,sty);
-				fread(&palletebase.car_remap,2,1,sty);
-				fread(&palletebase.ped_remap,2,1,sty);
-				fread(&palletebase.code_obj_remap,2,1,sty);
-				fread(&palletebase.map_obj_remap,2,1,sty);
-				fread(&palletebase.user_remap,2,1,sty);
-				fread(&palletebase.font_remap,2,1,sty);
+				FREAD(&palletebase.tile,2,1,sty, filename, printf);
+				FREAD(&palletebase.sprite,2,1,sty, filename, printf);
+				FREAD(&palletebase.car_remap,2,1,sty, filename, printf);
+				FREAD(&palletebase.ped_remap,2,1,sty, filename, printf);
+				FREAD(&palletebase.code_obj_remap,2,1,sty, filename, printf);
+				FREAD(&palletebase.map_obj_remap,2,1,sty, filename, printf);
+				FREAD(&palletebase.user_remap,2,1,sty, filename, printf);
+				FREAD(&palletebase.font_remap,2,1,sty, filename, printf);
 
 				printf("PALB: tile base: %d\n",palletebase.tile);
 				printf("PALB: sprite base: %d\n",palletebase.sprite);
@@ -122,19 +122,19 @@ static void loadsty(char* filename, char* exprt, char* setname_tex, char* setnam
 			case 0x454C4954: //TILE
 				printf("TILE: Found TILE chunk [size: %d]\n",chunkdata);
 				printf("TILE: Reading %d tiles...\n",chunkdata/(64*64));
-				fread(&tile_data,1,chunkdata,sty);
+				FREAD(&tile_data,1,chunkdata,sty, filename, printf);
 				TilesPresent = true;
 				break;
 			case 0x47525053: //SPRG
 				printf("SPRG: Found SPRG chunk [size: %d]\n",chunkdata);
 				printf("SPRG: Reading sprite graphics\n");
-				fread(&spritedata[0],1,chunkdata,sty);
+				FREAD(&spritedata[0],1,chunkdata,sty, filename, printf);
 				SpritesPresent = true;
 				break;
 			case 0x58525053: //SPRX
 				printf("SPRX: Found SPRX chunk [size: %d]\n",chunkdata);
 				printf("SPRX: Reading %d sprites...\n",chunkdata/8);
-				fread(&sprite_entries[0],1,chunkdata,sty);
+				FREAD(&sprite_entries[0],1,chunkdata,sty, filename, printf);
 				sprite_count = chunkdata/8;
 				break;
 			case 0x42525053: //SPRB
@@ -144,12 +144,12 @@ static void loadsty(char* filename, char* exprt, char* setname_tex, char* setnam
 				printf("SPRB: Reading sprite bases...\n");
 
 				spritebase.car = 0;
-				fread(&temp,2,1,sty); spritebase.ped = spritebase.car + temp;
-				fread(&temp,2,1,sty); spritebase.code_obj = spritebase.ped + temp;
-				fread(&temp,2,1,sty); spritebase.map_obj = spritebase.code_obj + temp;
-				fread(&temp,2,1,sty); spritebase.user = spritebase.map_obj + temp;
-				fread(&temp,2,1,sty); spritebase.font = spritebase.user + temp;
-				fread(&temp,2,1,sty); 
+				FREAD(&temp,2,1,sty, filename, printf); spritebase.ped = spritebase.car + temp;
+				FREAD(&temp,2,1,sty, filename, printf); spritebase.code_obj = spritebase.ped + temp;
+				FREAD(&temp,2,1,sty, filename, printf); spritebase.map_obj = spritebase.code_obj + temp;
+				FREAD(&temp,2,1,sty, filename, printf); spritebase.user = spritebase.map_obj + temp;
+				FREAD(&temp,2,1,sty, filename, printf); spritebase.font = spritebase.user + temp;
+				FREAD(&temp,2,1,sty, filename, printf); 
 
 				/*spritebase.ped = spritebase.car;
 				spritebase.car = 0;
@@ -176,11 +176,11 @@ static void loadsty(char* filename, char* exprt, char* setname_tex, char* setnam
 			case 0x424E4F46: //FONB
 				printf("FONB: Found FONB chunk [size: %d]\n",chunkdata);
 				//fseek(sty,chunkdata,1);
-				fread(&fontbase.font_count,2,1,sty);
+				FREAD(&fontbase.font_count,2,1,sty, filename, printf);
 				printf("FONB: Found %d fonts...\n",fontbase.font_count);
 				fontbase.sprbase[0] = spritebase.font;
 				for (int i=0;i<fontbase.font_count;i++) {
-					fread(&fontbase.base[i],2,1,sty);
+					FREAD(&fontbase.base[i],2,1,sty, filename, printf);
 					if (i > 0) fontbase.sprbase[i] = fontbase.sprbase[i-1] + fontbase.base[i];
 					printf("FONB: Font %d [%d characters, sprbase %d]\n",i,fontbase.base[i],fontbase.sprbase[i]);
 				}
