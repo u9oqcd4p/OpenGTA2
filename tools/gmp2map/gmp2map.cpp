@@ -2,6 +2,8 @@
 #include "stdlib.h"
 #include "assert.h"
 #include "string.h"
+
+#define FREAD_HELPER
 #include "../../include/fread.h"
 
 #pragma warning (disable : 4996)
@@ -155,28 +157,28 @@ static void chunk_dmap() {
 	//read base
 	for (int i=0;i<256;i++) {
 		for (int j=0;j<256;j++) {
-			FREAD(&base[i][j], 4, 1, gmp, "???", printf);
+			FREAD(&base[i][j], 4, 1, gmp, "???", fread_log);
 		}
 	}
 
 	//read column words
-	FREAD(&col_words, 4, 1, gmp, "???", printf);
+	FREAD(&col_words, 4, 1, gmp, "???", fread_log);
 	printf("DMAP: Reading %d columns...\n",col_words);
 	for (unsigned int i=0;i<col_words;i++) {
-		FREAD(&column[i] , 4, 1, gmp, "???", printf);
+		FREAD(&column[i] , 4, 1, gmp, "???", fread_log);
 	}
 
 	//read blocks
-	FREAD(&num_blocks, 4, 1, gmp, "???", printf);
+	FREAD(&num_blocks, 4, 1, gmp, "???", fread_log);
 	printf("DMAP: Reading %d blocks...\n",num_blocks);
 	for (unsigned int i=0;i<num_blocks;i++) {
-		FREAD(&block[i].left, 2, 1, gmp, "???", printf);
-		FREAD(&block[i].right, 2, 1, gmp, "???", printf);
-		FREAD(&block[i].top, 2, 1, gmp, "???", printf);
-		FREAD(&block[i].bottom, 2, 1, gmp, "???", printf);
-		FREAD(&block[i].lid, 2, 1, gmp, "???", printf);
-		FREAD(&block[i].arrows, 1, 1, gmp, "???", printf);
-		FREAD(&block[i].slope_type, 1, 1, gmp, "???", printf);
+		FREAD(&block[i].left, 2, 1, gmp, "???", fread_log);
+		FREAD(&block[i].right, 2, 1, gmp, "???", fread_log);
+		FREAD(&block[i].top, 2, 1, gmp, "???", fread_log);
+		FREAD(&block[i].bottom, 2, 1, gmp, "???", fread_log);
+		FREAD(&block[i].lid, 2, 1, gmp, "???", fread_log);
+		FREAD(&block[i].arrows, 1, 1, gmp, "???", fread_log);
+		FREAD(&block[i].slope_type, 1, 1, gmp, "???", fread_log);
 	}
 
 	//compute the map
@@ -227,13 +229,13 @@ static void chunk_zone() {
 		unsigned char zone_type,x,y,w,h,name_length;
 		char name[256];
 
-		FREAD(&zone_type, 1, 1, gmp, "???", printf);
-		FREAD(&x, 1, 1, gmp, "???", printf);
-		FREAD(&y, 1, 1, gmp, "???", printf);
-		FREAD(&w, 1, 1, gmp, "???", printf);
-		FREAD(&h, 1, 1, gmp, "???", printf);
-		FREAD(&name_length, 1, 1, gmp, "???", printf);
-		FREAD(name, 1, name_length, gmp, "???", printf);
+		FREAD(&zone_type, 1, 1, gmp, "???", fread_log);
+		FREAD(&x, 1, 1, gmp, "???", fread_log);
+		FREAD(&y, 1, 1, gmp, "???", fread_log);
+		FREAD(&w, 1, 1, gmp, "???", fread_log);
+		FREAD(&h, 1, 1, gmp, "???", fread_log);
+		FREAD(&name_length, 1, 1, gmp, "???", fread_log);
+		FREAD(name, 1, name_length, gmp, "???", fread_log);
 		name[name_length] = '\0';
 
 		numzones++;
@@ -257,12 +259,12 @@ static void chunk_lght() {
 	num_lights = chunkdata / 12;
 	for (int i = 0; i < num_lights; i++) {
 		unsigned short x,y,z,r;
-		FREAD(&rmp_lights[i].ARGB, 4, 1, gmp, "???", printf);
+		FREAD(&rmp_lights[i].ARGB, 4, 1, gmp, "???", fread_log);
 		
-		FREAD(&x, 2, 1, gmp, "???", printf);
-		FREAD(&y, 2, 1, gmp, "???", printf);
-		FREAD(&z, 2, 1, gmp, "???", printf);
-		FREAD(&r, 2, 1, gmp, "???", printf);
+		FREAD(&x, 2, 1, gmp, "???", fread_log);
+		FREAD(&y, 2, 1, gmp, "???", fread_log);
+		FREAD(&z, 2, 1, gmp, "???", fread_log);
+		FREAD(&r, 2, 1, gmp, "???", fread_log);
 
 		//The upper 9 bits of each number stores the block across the map ( with a sign ), and the lower 7 bits stores the position within the block
 
@@ -354,17 +356,17 @@ static void generate_rmp(int ox,int oy) {
 
 static void loadmap(char* filename, char* dname, char* tilesetname, int offx, int offy) {
 	char fname[256];
-	sprintf(&fname[0],"%s.gmp",filename);
+	snprintf(fname, sizeof(fname), "%s.gmp", filename);
 
-	gmp = fopen(fname,"rb");
+	gmp = fopen(fname, "rb");
 	fseek(gmp,0,2);
 	int filesize = ftell(gmp);
 	fseek(gmp,0,0);
 
 	printf("Reading %s\n",fname);
 
-	FREAD(&chunkheader, 1, 4, gmp, "???", printf);
-	FREAD(&chunkdata, 2, 1, gmp, "???", printf);
+	FREAD(&chunkheader, 1, 4, gmp, fname, fread_log);
+	FREAD(&chunkdata, 2, 1, gmp, fname, fread_log);
 	if (chunkheader != 0x504D4247) { //GBMP
 		printf("Not a GBH/GTA2 map!\n");
 		return;
@@ -377,8 +379,8 @@ static void loadmap(char* filename, char* dname, char* tilesetname, int offx, in
 
 	//read map chunks
 	while (ftell(gmp) < filesize) {
-		FREAD(&chunkheader, 1, 4, gmp, "???", printf);
-		FREAD(&chunkdata, 1, 4, gmp, "???", printf);
+		FREAD(&chunkheader, 1, 4, gmp, "???", fread_log);
+		FREAD(&chunkdata, 1, 4, gmp, "???", fread_log);
 		//printf("           [chunk found (%d), size %d]\n",chunkheader,chunkdata);
 		printf("\n");
 
@@ -434,8 +436,8 @@ static void loadmap(char* filename, char* dname, char* tilesetname, int offx, in
 
 	printf("\nSaving RMP map cells\n");
 	char rmpname[256];
-	sprintf(&rmpname[0],"%s.rmp",dname);
-	FILE* rmp = fopen(&rmpname[0],"wb+");
+	snprintf(rmpname, sizeof(rmpname), "%s.rmp", dname);
+	FILE* rmp = fopen(rmpname, "wb+");
 
 	//Write header
 	char header[5] = "ZRMP"; int chunksize = 0; int rmpversion = 160;

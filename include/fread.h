@@ -23,14 +23,40 @@
 		(dest), (size), (times), (src));			\
 									\
 	if (bytes_expected != bytes_read) {				\
-		log_func("Expected to read %d (%d * %d) bytes from %s into %s but could only read %d bytes in %s:%d (%s)",									\
+		log_func("Expected to read %d (%d * %d) bytes from %s "	\
+			"into %s but could only read %d bytes in %s:%d"	\
+			" (%s)",					\
 			bytes_expected, (size), (times),		\
 			filename, #dest,				\
 			bytes_read,					\
 			__FILE__, __LINE__, __func__			\
 		);							\
+		if (feof((src))) {					\
+			log_func("\tError probably because end of file"	\
+				" was reached");			\
+		}							\
+		if (ferror((src))) {					\
+			log_func("\tError %d occured", ferror((src)));	\
+		}							\
 	}								\
 }									\
+
+#ifdef FREAD_HELPER
+#undef FREAD_HELPER
+
+#include <stdarg.h>
+static void fread_log(char const* fmt, ...) {
+	va_list arg_list;
+	va_start(arg_list, fmt);
+
+	vfprintf(stderr, fmt, arg_list);
+	fprintf(stderr, "\n");
+	fflush(stderr);
+
+	va_end(arg_list);
+}
+
+#endif
 
 
 
