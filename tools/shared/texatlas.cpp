@@ -132,7 +132,7 @@ void Texture_Atlas::atlasCopy(atlasRegion* target, int sourceMask, int destMask,
 		}
 }
 
-void Texture_Atlas::dumpBMP(char* filename) {
+void Texture_Atlas::dumpBMP(char const* filename) {
 	FILE* bmp = fopen(filename,"wb+");
 	unsigned char bmpHeader[54] =
 	{

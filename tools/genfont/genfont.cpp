@@ -187,7 +187,8 @@ static void loadsty(char* filename, char* setname_spr, char* setname_font) {
 	}
 	
 	spriteAtlas.atlasStop();
-	spriteAtlas.dumpBMP("sprites.bmp");
+	static char const* sprites = "sprites.bmp";
+	spriteAtlas.dumpBMP(sprites);
 	//Write atlas
 	chunksize += fwrite(spriteAtlas.textureData,1,spriteAtlas.effectiveSize(),bmp);
 	//for (int y = 0; y < spriteAtlas.atlasHeight; y++)

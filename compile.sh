@@ -193,8 +193,8 @@ link "tools/chunkmerge" "$arg" "tools/chunkmerge.app"
 
 TOOL_GENFONT=( "genfont" "texatlas" )
 arg=`echo ${TOOL_GENFONT[@]}`
-cp "tools/shared/texatlas.h" "tools/genfont"
-cp "tools/shared/texatlas.cpp" "tools/genfont"
+cp "tools/shared/texatlas.h" "${TMP}/tools/genfont"
+cp "tools/shared/texatlas.cpp" "${TMP}/tools/genfont"
 compile "tools/genfont" "$arg"
 link "tools/genfont" "$arg" "tools/genfont.app"
 

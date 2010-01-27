@@ -51,7 +51,7 @@ struct Texture_Atlas {
 
 	int effectiveSize();
 
-	void dumpBMP(char* filename);
+	void dumpBMP(char const* filename);
 
 	//Internal variables
 	int atlasFreeTexels;
