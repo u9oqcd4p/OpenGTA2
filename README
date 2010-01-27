@@ -14,5 +14,8 @@ Quick Start
  * Change into the ./gta2 directory and install-gta2.sh $directory, this will
    copy all neede files from the GTA2 installation into the gta2 directory.
    You can uninstall the original GTA2 after this step
+ * Execute ./compile.sh and pray to good you have all needed libraries installed
+   in the correct version (if not look into compile.sh and include/read_this.txt
+   too read about the details)
 
 
