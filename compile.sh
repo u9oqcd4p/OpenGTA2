@@ -198,6 +198,10 @@ cp "tools/shared/texatlas.cpp" "${TMP}/tools/genfont"
 compile "tools/genfont" "$arg"
 link "tools/genfont" "$arg" "tools/genfont.app"
 
+TOOL_GMP2MAP=( "gmp2map" )
+arg=`echo ${TOOL_GMP2MAP[@]}`
+compile "tools/gmp2map" "$arg"
+link "tools/gmp2map" "$arg" "tools/gmp2map.app"
 
 
 

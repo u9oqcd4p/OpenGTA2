@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "assert.h"
 #include "string.h"
+#include "../../include/fread.h"
 
 #pragma warning (disable : 4996)
 
@@ -154,28 +155,28 @@ static void chunk_dmap() {
 	//read base
 	for (int i=0;i<256;i++) {
 		for (int j=0;j<256;j++) {
-			fread(&base[i][j],4,1,gmp);
+			FREAD(&base[i][j], 4, 1, gmp, "???", printf);
 		}
 	}
 
 	//read column words
-	fread(&col_words,4,1,gmp);
+	FREAD(&col_words, 4, 1, gmp, "???", printf);
 	printf("DMAP: Reading %d columns...\n",col_words);
 	for (unsigned int i=0;i<col_words;i++) {
-		fread(&column[i],4,1,gmp);
+		FREAD(&column[i] , 4, 1, gmp, "???", printf);
 	}
 
 	//read blocks
-	fread(&num_blocks,4,1,gmp);
+	FREAD(&num_blocks, 4, 1, gmp, "???", printf);
 	printf("DMAP: Reading %d blocks...\n",num_blocks);
 	for (unsigned int i=0;i<num_blocks;i++) {
-		fread(&block[i].left,2,1,gmp);
-		fread(&block[i].right,2,1,gmp);
-		fread(&block[i].top,2,1,gmp);
-		fread(&block[i].bottom,2,1,gmp);
-		fread(&block[i].lid,2,1,gmp);
-		fread(&block[i].arrows,1,1,gmp);
-		fread(&block[i].slope_type,1,1,gmp);
+		FREAD(&block[i].left, 2, 1, gmp, "???", printf);
+		FREAD(&block[i].right, 2, 1, gmp, "???", printf);
+		FREAD(&block[i].top, 2, 1, gmp, "???", printf);
+		FREAD(&block[i].bottom, 2, 1, gmp, "???", printf);
+		FREAD(&block[i].lid, 2, 1, gmp, "???", printf);
+		FREAD(&block[i].arrows, 1, 1, gmp, "???", printf);
+		FREAD(&block[i].slope_type, 1, 1, gmp, "???", printf);
 	}
 
 	//compute the map
@@ -226,13 +227,13 @@ static void chunk_zone() {
 		unsigned char zone_type,x,y,w,h,name_length;
 		char name[256];
 
-		fread(&zone_type,1,1,gmp);
-		fread(&x,1,1,gmp);
-		fread(&y,1,1,gmp);
-		fread(&w,1,1,gmp);
-		fread(&h,1,1,gmp);
-		fread(&name_length,1,1,gmp);
-		fread(name,1,name_length,gmp);
+		FREAD(&zone_type, 1, 1, gmp, "???", printf);
+		FREAD(&x, 1, 1, gmp, "???", printf);
+		FREAD(&y, 1, 1, gmp, "???", printf);
+		FREAD(&w, 1, 1, gmp, "???", printf);
+		FREAD(&h, 1, 1, gmp, "???", printf);
+		FREAD(&name_length, 1, 1, gmp, "???", printf);
+		FREAD(name, 1, name_length, gmp, "???", printf);
 		name[name_length] = '\0';
 
 		numzones++;
@@ -256,12 +257,12 @@ static void chunk_lght() {
 	num_lights = chunkdata / 12;
 	for (int i = 0; i < num_lights; i++) {
 		unsigned short x,y,z,r;
-		fread(&rmp_lights[i].ARGB,4,1,gmp);
+		FREAD(&rmp_lights[i].ARGB, 4, 1, gmp, "???", printf);
 		
-		fread(&x,2,1,gmp);
-		fread(&y,2,1,gmp);
-		fread(&z,2,1,gmp);
-		fread(&r,2,1,gmp);
+		FREAD(&x, 2, 1, gmp, "???", printf);
+		FREAD(&y, 2, 1, gmp, "???", printf);
+		FREAD(&z, 2, 1, gmp, "???", printf);
+		FREAD(&r, 2, 1, gmp, "???", printf);
 
 		//The upper 9 bits of each number stores the block across the map ( with a sign ), and the lower 7 bits stores the position within the block
 
@@ -362,8 +363,8 @@ static void loadmap(char* filename, char* dname, char* tilesetname, int offx, in
 
 	printf("Reading %s\n",fname);
 
-	fread(&chunkheader,1,4,gmp);
-	fread(&chunkdata,2,1,gmp);
+	FREAD(&chunkheader, 1, 4, gmp, "???", printf);
+	FREAD(&chunkdata, 2, 1, gmp, "???", printf);
 	if (chunkheader != 0x504D4247) { //GBMP
 		printf("Not a GBH/GTA2 map!\n");
 		return;
@@ -376,8 +377,8 @@ static void loadmap(char* filename, char* dname, char* tilesetname, int offx, in
 
 	//read map chunks
 	while (ftell(gmp) < filesize) {
-		fread(&chunkheader,1,4,gmp);
-		fread(&chunkdata,1,4,gmp);
+		FREAD(&chunkheader, 1, 4, gmp, "???", printf);
+		FREAD(&chunkdata, 1, 4, gmp, "???", printf);
 		//printf("           [chunk found (%d), size %d]\n",chunkheader,chunkdata);
 		printf("\n");
 
